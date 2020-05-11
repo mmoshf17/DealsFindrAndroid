@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/RegisterBtn"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:text="Register"
+        android:background="@drawable/buttonlayout"
+        android:onClick="onClickRegisterbtn"
+         />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/loginBtn"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:text="Login"
+        android:background="@drawable/buttonlayout"
+        android:onClick="onClickLoginBtn"
+        tools:ignore="OnClick" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/itemActivityBtn"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:onClick="itemBtn"
+        android:background="@drawable/buttonlayout"
+        android:text="item"
+         />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/offerActivityBtn"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:onClick="onClickOfferBtn"
+        android:background="@drawable/buttonlayout"
+        android:text="Offer"
+         />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/PromotionActivityBtn"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:onClick="onClickPromotionBtn"
+        android:background="@drawable/buttonlayout"
+        android:text="Promotion"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/LogoutBtn"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:onClick="onClickLogoutBtn"
+        android:background="@drawable/buttonlayout"
+        android:text="Logout"
+        />
+
+</LinearLayout>

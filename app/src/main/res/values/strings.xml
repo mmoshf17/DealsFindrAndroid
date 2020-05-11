@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">DealsFindr</string>
+
+
+
+    //For category spinner
+    <string-array name="category_arrays">
+
+        <item>Select</item>
+        <item>Breakfast</item>
+        <item>Meat</item>
+        <item>Fruit and Vegetables</item>
+        <item>Snaks</item>
+
+    </string-array>
+</resources>
+
+
+

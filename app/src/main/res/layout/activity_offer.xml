@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <AutoCompleteTextView
+            android:id="@+id/autocompleteName"
+            android:layout_width="211dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="23dp"
+            android:layout_marginTop="108dp"
+            android:background="@drawable/edittextlayout"
+            android:ems="10"
+            android:hint="Search item"
+            android:inputType="text"
+            />
+
+        <EditText
+            android:id="@+id/txtPrice"
+            android:layout_width="111dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="108dp"
+            android:layout_marginStart="23dp"
+            android:background="@drawable/edittextlayout"
+            android:ems="10"
+            android:hint="New Price"
+            android:inputType="numberDecimal"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="127dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="23dp"
+            android:layout_marginTop="300dp"
+            android:hint="End date"
+            />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="200dp"
+            >
+
+
+
+            <DatePicker
+                android:id="@+id/clndEndingDate"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:datePickerMode="spinner"
+                android:calendarViewShown="false"
+                />
+        </ScrollView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="23dp"
+            android:layout_marginTop="450dp"
+            android:layout_marginEnd="23dp"
+            android:text="Normal Price: "
+            android:hint="Add description"
+            android:inputType="textMultiLine" />
+
+        <TextView
+            android:id="@+id/txtNormalPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="450dp"
+            android:ems="10"
+            android:text="Normal Price: "
+            android:hint="Add description"
+            android:inputType="textMultiLine" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="520dp"
+            android:layout_marginLeft="70pt"
+            android:onClick="onClickSaveOffer"
+            android:background="@drawable/buttonlayout"
+            android:text="Save"
+            />
+
+    </LinearLayout>
+
+
+</RelativeLayout>
