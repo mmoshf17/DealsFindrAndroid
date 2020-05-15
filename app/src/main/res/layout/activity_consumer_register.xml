@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/txtConsumerFirstName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/edittextlayout"
+                    android:ems="10"
+                    android:hint="First name"
+                    android:inputType="textPersonName"
+                    android:padding="5dip"
+                    />
+
+                <EditText
+                    android:id="@+id/txtConsumerLastName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/edittextlayout"
+                    android:ems="10"
+                    android:hint="Last name"
+                    android:inputType="textPersonName"
+                    android:padding="5dip"
+                    />
+
+                <EditText
+                    android:id="@+id/txtConsumerEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/edittextlayout"
+                    android:ems="10"
+                    android:text="consumer@hotmail.com"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"
+                    android:padding="5dip"
+                    />
+
+                <EditText
+                    android:id="@+id/txtConsumerPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/edittextlayout"
+                    android:ems="10"
+                    android:text="Aalborguniversity123."
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:padding="5dip"
+                    />
+
+                <EditText
+                    android:id="@+id/txtConsumerConfirmPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/edittextlayout"
+                    android:ems="10"
+                    android:text="Aalborguniversity123."
+                    android:hint="Confirm password"
+                    android:inputType="textPassword"
+                    android:padding="5dip"
+                    />
+
+                <EditText
+                    android:id="@+id/txtConsumerPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/edittextlayout"
+                    android:ems="10"
+                    android:hint="Phone"
+                    android:inputType="phone"
+                    android:padding="5dip"
+                    />
+
+
+                <EditText
+                    android:id="@+id/txtConsumerStreetName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/edittextlayout"
+                    android:ems="10"
+                    android:hint="Street name"
+                    android:inputType="text"
+                    android:padding="5dip"
+                    />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/txtConsumerHouse"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/edittextlayout"
+                    android:ems="10"
+                    android:hint="House no."
+                    android:inputType="text"
+                    android:padding="5dip"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="        "/>
+
+                <EditText
+                    android:id="@+id/txtConsumerPost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/edittextlayout"
+                    android:ems="10"
+                    android:hint="Post code"
+                    android:inputType="number"
+                    android:padding="5dip"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/txtConsumerCity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/edittextlayout"
+                    android:ems="10"
+                    android:hint="City name"
+                    android:inputType="text"
+                    android:padding="5dip"
+                    />
+
+            </LinearLayout>
+
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/chkbxTerms"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/textGDPR"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:onClick="onClickTerms"
+                        android:text="Accept terms and conditions"
+                        android:textColor="#0000EE" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center">
+
+
+
+                    <Button
+                        android:id="@+id/btnConsumerRegister"
+                        android:layout_width="156dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/buttonlayout"
+                        android:onClick="onClickConsumerRegisterbtn"
+                        android:padding="10dp"
+                        android:text="SIGN UP!"
+                        />
+
+                </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="
+                        Already Registered? "
+                        android:gravity="center"
+                         />
+
+                    <Button
+                        android:id="@+id/btnGoToLogin"
+                        android:layout_width="156dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/buttonlayout"
+                        android:onClick="onClickRegisterbtn"
+                        android:text="Login!"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+
+    </RelativeLayout>
+</LinearLayout>

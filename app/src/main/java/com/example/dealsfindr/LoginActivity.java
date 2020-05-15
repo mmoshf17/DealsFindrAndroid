@@ -83,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                     String responseString = httpConnection.readStream(urlConnection.getInputStream());
                     JSONObject obj = new JSONObject(responseString);
                     String token = obj.get("access_token").toString();
+                    String getUserId = obj.get("userID").toString();
                     String getUserRole = obj.get("roles").toString().trim();
 
                     String s1= getUserRole;
@@ -98,6 +99,11 @@ public class LoginActivity extends AppCompatActivity {
                     //Saving logged in user for showing it later on in Profile Settings
                     String saveUser = userId.getText().toString();
                     editor.putString("savedUser", saveUser);
+                    editor.apply();
+
+
+                    //Saving userId
+                    editor.putString("savedUserId", getUserId);
                     editor.apply();
 
                     if (getUserRole.contains("Supplier"))

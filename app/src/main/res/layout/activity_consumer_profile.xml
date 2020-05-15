@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:text="Logged in as:     "/>
+
+            <TextView
+                android:id="@+id/txtLoggedAs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:text="Logged in as:     "/>
+        </LinearLayout>
+
+
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="5"/>
+
+            <TextView
+                android:id="@+id/txtChangePass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#0000EE"
+                android:text="Change password"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="2"/>
+
+            <TextView
+                android:id="@+id/txtChangeLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#0000EE"
+                android:text="Change location"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="2"/>
+
+            <TextView
+                android:id="@+id/txtChangePhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#0000EE"
+                android:text="Change phone number"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="5"/>
+
+            <TextView
+                android:id="@+id/txtHelp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#0000EE"
+                android:layout_gravity="center"
+                android:text="Help"/>
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

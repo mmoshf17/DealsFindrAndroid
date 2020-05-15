@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.dealsfindr.Consumer.ConsumerRegisterActivity;
+import com.example.dealsfindr.Consumer.ConsumerShoppingList;
+
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -82,6 +85,18 @@ public class MainActivity extends AppCompatActivity {
         Intent goToLogin = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(goToLogin);
         finish();
+    }
+
+    public void onClickRegisterConsumerbtn(View view){
+
+        Intent goToRegisterConsumer = new Intent(getApplicationContext(), ConsumerRegisterActivity.class);
+        startActivity(goToRegisterConsumer);
+    }
+
+    public void onClickConsumerShoppinglistbtn(View view){
+
+        Intent goToConsumerShoppinglist = new Intent(getApplicationContext(), ConsumerShoppingList.class);
+        startActivity(goToConsumerShoppinglist);
     }
 }
 

@@ -65,25 +65,7 @@ public class Offer extends AppCompatActivity {
             }
         });
 
-        autoCompleteTextView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Offer.this.adapter.getFilter().filter(s);
-
-
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-
-
-
-            }
-
-        });
 
     }
 
@@ -131,14 +113,17 @@ public class Offer extends AppCompatActivity {
             c.set(year, month, day);
             SimpleDateFormat dateformat = new SimpleDateFormat("dd-MMM-yyyy");
             String calendar = dateformat.format(c.getTime());
+            SharedPreferences sp = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
 
+            int savedItemId = sp.getInt("SaveItemId",0);
 
             URL url;
             HttpURLConnection urlConnection = null;
 
             try {
                 JSONObject postDataParams = new JSONObject();
-                postDataParams.put("Item_name", itemName.getText());
+                postDataParams.put("Item_Id", savedItemId);
+                //postDataParams.put("Item_name", itemName.getText());
                 postDataParams.put("End_date", calendar);
                 postDataParams.put("New_price", newPrice.getText());
 
@@ -204,7 +189,7 @@ public class Offer extends AppCompatActivity {
     private class GetAllItemNames extends ReadHttpTask {
         @Override
         protected void onPostExecute(CharSequence jsonString) {
-
+                //int itemId = 0;
             //Gets the data from database and show all info into list by using loop
             final List<AutoCompleteItems> request = new ArrayList<>();
 
@@ -216,13 +201,17 @@ public class Offer extends AppCompatActivity {
 
                     //token = obj.getString("UserId");
                     String itemName = obj.getString("Item_name");
+                   //itemId = obj.getInt("Item_Id");
+
+
+
 
                     AutoCompleteItems autoCompleteItems = new AutoCompleteItems (itemName);
 
                     request.add(autoCompleteItems);
 
                 }
-
+//
                  autoCompleteView = findViewById(R.id.autocompleteName);
                  adapter = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_dropdown_item_1line, request);
                 autoCompleteView.setAdapter(adapter);
@@ -250,9 +239,13 @@ public class Offer extends AppCompatActivity {
                 TextView txtNormalPrice = findViewById(R.id.txtNormalPrice);
                 //adapter = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_list_item_1, request);
                 String value = jsono.get("Price").toString();
+                int itemId = jsono.getInt("Item_Id");
                 txtNormalPrice.setText(value);
 
-
+                SharedPreferences sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+               editor.putInt("SaveItemId", itemId);
+                editor.apply();
 
             }
 

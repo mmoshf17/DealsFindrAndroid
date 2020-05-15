@@ -8,6 +8,8 @@
     android:gravity="center"
     tools:context=".MainActivity">
 
+
+
     <Button
         android:id="@+id/RegisterBtn"
         android:layout_width="250dp"
@@ -16,6 +18,32 @@
         android:background="@drawable/buttonlayout"
         android:onClick="onClickRegisterbtn"
          />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/RegisterConsumerBtn"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:text="Register Consumer"
+        android:background="@drawable/buttonlayout"
+        android:onClick="onClickRegisterConsumerbtn"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/ConsumerShoppingListBtn"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:text="Consumer Shoppinglist"
+        android:background="@drawable/buttonlayout"
+        android:onClick="onClickConsumerShoppinglistbtn"
+        />
 
     <TextView
         android:layout_width="wrap_content"

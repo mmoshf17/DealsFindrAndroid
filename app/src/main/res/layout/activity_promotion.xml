@@ -13,8 +13,8 @@
         android:layout_height="match_parent"
         >
 
-        <SearchView
-            android:id="@+id/txtName"
+        <AutoCompleteTextView
+            android:id="@+id/autoCompletetxtName"
             android:layout_width="211dp"
             android:layout_height="36dp"
             android:layout_marginStart="23dp"
@@ -22,7 +22,7 @@
             android:background="@drawable/edittextlayout"
             android:ems="10"
             android:hint="Search item"
-            android:inputType="numberDecimal"
+            android:inputType="text"
             />
 
         <EditText
@@ -115,6 +115,7 @@
         android:layout_height="match_parent">
 
         <CheckBox
+            android:id="@+id/checkboxFrontpage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="23dp"
@@ -125,7 +126,7 @@
             android:inputType="textMultiLine" />
 
         <CheckBox
-            android:id="@+id/txtNormalPrice"
+            android:id="@+id/checkboxNearby"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="1dp"
