@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.dealsfindr.Consumer.ConsumerMainPage;
 import com.example.dealsfindr.Consumer.ConsumerRegisterActivity;
+import com.example.dealsfindr.Consumer.ConsumerSearchItems;
 import com.example.dealsfindr.Consumer.ConsumerShoppingList;
 
 import java.util.Objects;
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void itemBtn(View view){
-        Intent goToItem = new Intent(getApplicationContext(), Item.class);
+        Intent goToItem = new Intent(getApplicationContext(), ItemActivity.class);
         startActivity(goToItem);
     }
 
@@ -97,6 +99,19 @@ public class MainActivity extends AppCompatActivity {
 
         Intent goToConsumerShoppinglist = new Intent(getApplicationContext(), ConsumerShoppingList.class);
         startActivity(goToConsumerShoppinglist);
+    }
+
+    public void onClickConsumerMainPage(View view){
+
+        Intent goToConsumerMainPage = new Intent(getApplicationContext(), ConsumerMainPage.class);
+        startActivity(goToConsumerMainPage);
+    }
+
+
+    public void onClickConsumerSearchItem(View view){
+
+        Intent goToConsumerSearchItem = new Intent(getApplicationContext(), ConsumerSearchItems.class);
+        startActivity(goToConsumerSearchItem);
     }
 }
 

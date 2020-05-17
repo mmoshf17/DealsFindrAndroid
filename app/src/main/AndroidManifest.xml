@@ -33,6 +33,18 @@
             android:parentActivityName=".MainActivity" />
 
         <activity
+            android:name=".Consumer.ConsumerMainPage"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".Consumer.ConsumerItemsByCategory"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".Consumer.ConsumerSearchItems"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
             android:name=".LoginActivity"
             android:parentActivityName=".MainActivity" />
 
@@ -41,7 +53,7 @@
             android:parentActivityName=".MainActivity" />
 
         <activity
-            android:name=".Item"
+            android:name=".ItemActivity"
             android:parentActivityName=".MainActivity" />
 
         <activity

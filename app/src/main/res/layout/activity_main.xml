@@ -13,7 +13,7 @@
     <Button
         android:id="@+id/RegisterBtn"
         android:layout_width="250dp"
-        android:layout_height="70dp"
+        android:layout_height="30dp"
         android:text="Register"
         android:background="@drawable/buttonlayout"
         android:onClick="onClickRegisterbtn"
@@ -26,7 +26,7 @@
     <Button
         android:id="@+id/RegisterConsumerBtn"
         android:layout_width="250dp"
-        android:layout_height="70dp"
+        android:layout_height="30dp"
         android:text="Register Consumer"
         android:background="@drawable/buttonlayout"
         android:onClick="onClickRegisterConsumerbtn"
@@ -39,7 +39,7 @@
     <Button
         android:id="@+id/ConsumerShoppingListBtn"
         android:layout_width="250dp"
-        android:layout_height="70dp"
+        android:layout_height="30dp"
         android:text="Consumer Shoppinglist"
         android:background="@drawable/buttonlayout"
         android:onClick="onClickConsumerShoppinglistbtn"
@@ -52,7 +52,7 @@
     <Button
         android:id="@+id/loginBtn"
         android:layout_width="250dp"
-        android:layout_height="70dp"
+        android:layout_height="30dp"
         android:text="Login"
         android:background="@drawable/buttonlayout"
         android:onClick="onClickLoginBtn"
@@ -65,7 +65,7 @@
     <Button
         android:id="@+id/itemActivityBtn"
         android:layout_width="250dp"
-        android:layout_height="70dp"
+        android:layout_height="30dp"
         android:onClick="itemBtn"
         android:background="@drawable/buttonlayout"
         android:text="item"
@@ -78,7 +78,7 @@
     <Button
         android:id="@+id/offerActivityBtn"
         android:layout_width="250dp"
-        android:layout_height="70dp"
+        android:layout_height="30dp"
         android:onClick="onClickOfferBtn"
         android:background="@drawable/buttonlayout"
         android:text="Offer"
@@ -91,7 +91,7 @@
     <Button
         android:id="@+id/PromotionActivityBtn"
         android:layout_width="250dp"
-        android:layout_height="70dp"
+        android:layout_height="30dp"
         android:onClick="onClickPromotionBtn"
         android:background="@drawable/buttonlayout"
         android:text="Promotion"
@@ -104,10 +104,36 @@
     <Button
         android:id="@+id/LogoutBtn"
         android:layout_width="250dp"
-        android:layout_height="70dp"
+        android:layout_height="30dp"
         android:onClick="onClickLogoutBtn"
         android:background="@drawable/buttonlayout"
         android:text="Logout"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/consumerMainPageBtn"
+        android:layout_width="250dp"
+        android:layout_height="30dp"
+        android:onClick="onClickConsumerMainPage"
+        android:background="@drawable/buttonlayout"
+        android:text="Consumer Main"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/consumerSearchItemBtn"
+        android:layout_width="250dp"
+        android:layout_height="30dp"
+        android:onClick="onClickConsumerSearchItem"
+        android:background="@drawable/buttonlayout"
+        android:text="Consumer Search Items"
         />
 
 </LinearLayout>

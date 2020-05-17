@@ -10,9 +10,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.dealsfindr.AutoCompleteItems;
 import com.example.dealsfindr.AutoCompleteItemsPromotions;
 import com.example.dealsfindr.MainActivity;
 import com.example.dealsfindr.PostDataString;
@@ -34,101 +36,103 @@ import java.util.List;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ConsumerMainPage extends AppCompatActivity {
+public class ConsumerSearchItems extends AppCompatActivity {
+
+    AutoCompleteTextView autoCompleteTextView;
+    ArrayAdapter<AutoCompleteItems> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_consumer_mainpage);
+        setContentView(R.layout.activity_search_item);
 
-        this.setTitle("Welcome");
+        this.setTitle("Search");
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+    public void onClickSearchItem(View view){
+
         SharedPreferences sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         String getUserId = sharedPref.getString("savedUserId", "");
 
-        //Getting all the items that are stored in the db
-        GetAllPromotedItems getAllPromotedItems = new GetAllPromotedItems();
-        getAllPromotedItems.execute("http://192.168.1.196:45683/api/GetPromotedItems?userId=" + getUserId);
+        GetItemsByName getItemsByName = new GetItemsByName();
+        getItemsByName.execute("http://192.168.1.196:45683/api/GetItemByName?userId=" + getUserId + "&itemName=" + autoCompleteTextView.getText());
+        //new SaveShoppingItem().execute();
+    //autoCompleteTextView.setText("");
 
-        //Getting all the items that are stored in the db
-        GetAllCategories getAllCategories = new GetAllCategories();
-        getAllCategories.execute("http://192.168.1.196:45683/api/GetCategories?userId=" + getUserId);
+
     }
 
-    private class GetAllPromotedItems extends ReadHttpTask {
+    private class GetItemsByName extends ReadHttpTask {
         @Override
         protected void onPostExecute(CharSequence jsonString) {
-
-
-
+            //int itemId = 0;
             //Gets the data from database and show all info into list by using loop
             final List<CategoryItemsDetails> list = new ArrayList<>();
 
             try {
+
                 JSONArray array = new JSONArray(jsonString.toString());
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject obj = array.getJSONObject(i);
 
+                    //token = obj.getString("UserId");
                     String itemName = obj.getString("Item_name");
-                    int price = obj.getInt("Price");
                     String supplierName = obj.getString("Supplier_name");
+                    int price = obj.getInt("Price");
+                    //itemId = obj.getInt("Item_Id");
 
-                    CategoryItemsDetails categoryItemsDetails = new CategoryItemsDetails(itemName, price, supplierName);
+
+
+
+                    CategoryItemsDetails categoryItemsDetails = new CategoryItemsDetails (itemName, price, supplierName);
 
                     list.add(categoryItemsDetails);
 
-
                 }
-
-
-                ListView listView = findViewById(R.id.recomendationLV);
+//
+                ListView listView = findViewById(R.id.acSearchResultList);
                 ArrayAdapter<CategoryItemsDetails> adapter = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_list_item_1, list);
                 listView.setAdapter(adapter);
 
                 listView.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
 
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(ConsumerMainPage.this);
-                builder1.setMessage("Are you sure that you wish to add the item to the shopping list?");
-                builder1.setCancelable(true);
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(ConsumerSearchItems.this);
+                    builder1.setMessage("Are you sure that you wish to add the item to the shopping list?");
+                    builder1.setCancelable(true);
 
-                builder1.setPositiveButton(
-                        "Yes",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                //dialog.cancel();
+                    builder1.setPositiveButton(
+                            "Yes",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    //dialog.cancel();
 
-                                CategoryItemsDetails categoryItemsDetails = (CategoryItemsDetails) parent.getItemAtPosition(position);
+                                    CategoryItemsDetails categoriesDetails = (CategoryItemsDetails) parent.getItemAtPosition(position);
 
 
-                                new SaveShoppingItem(categoryItemsDetails.getItemName(), categoryItemsDetails.getPrice(), categoryItemsDetails.getSupplierName()).execute();
-                            }
-                        });
+                                    new SaveShoppingItem(categoriesDetails.getItemName(), categoriesDetails.getPrice(), categoriesDetails.getSupplierName()).execute();
+                                }
+                            });
 
-                builder1.setNegativeButton(
-                        "No",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
+                    builder1.setNegativeButton(
+                            "No",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
 
-                AlertDialog alert11 = builder1.create();
-                alert11.show();
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+
 
 
                 });
 
-
-
             } catch (JSONException ex)
             {
                 //messageTextView.setText(ex.getMessage());
-                Log.e("CategoryItemsDetails", ex.getMessage());
+                Log.e("InstallmentRequest", ex.getMessage());
             }
 
 
@@ -202,14 +206,14 @@ public class ConsumerMainPage extends AppCompatActivity {
                 if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_ACCEPTED) {
 
 
-                    Intent intent = new Intent(ConsumerMainPage.this, MainActivity.class);
+                    Intent intent = new Intent(ConsumerSearchItems.this, MainActivity.class);
                     startActivity(intent);
                     finish();
 
 
                 } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
 
-                    Intent intentLogin = new Intent(ConsumerMainPage.this, MainActivity.class);
+                    Intent intentLogin = new Intent(ConsumerSearchItems.this, MainActivity.class);
                     startActivity(intentLogin);
                     finish();
 
@@ -227,53 +231,63 @@ public class ConsumerMainPage extends AppCompatActivity {
         }
     }
 
-    private class GetAllCategories extends ReadHttpTask {
+    @Override
+    protected void onStart(){
+        super.onStart( );
+        SharedPreferences sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        String getUserId = sharedPref.getString("savedUserId", "");
+
+        GetAllShoppingItems getAllShoppingItems = new GetAllShoppingItems();
+        getAllShoppingItems.execute("http://192.168.1.196:45683/api/GetAllItems?userId=" + getUserId);
+
+
+
+    }
+
+
+    private class GetAllShoppingItems extends ReadHttpTask {
         @Override
         protected void onPostExecute(CharSequence jsonString) {
-
-
-
+            //int itemId = 0;
             //Gets the data from database and show all info into list by using loop
-            final List<Categories> list = new ArrayList<>();
+            final List<AutoCompleteItems> request = new ArrayList<>();
 
             try {
+
                 JSONArray array = new JSONArray(jsonString.toString());
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject obj = array.getJSONObject(i);
 
-                    int categoryId = obj.getInt("Category_Id");
-                    String categoryName = obj.getString("Category_name");
-                    //String itemName = obj.getString("Item_name");
-                    //int price = obj.getInt("Price");
+                    //token = obj.getString("UserId");
+                    String itemName = obj.getString("Item_name");
+                    //itemId = obj.getInt("Item_Id");
 
-                    Categories categories = new Categories(categoryId, categoryName);
 
-                    list.add(categories);
 
+
+                    AutoCompleteItems autoCompleteItems = new AutoCompleteItems (itemName);
+
+                    request.add(autoCompleteItems);
 
                 }
+//
+                autoCompleteTextView =  findViewById(R.id.acSearchItems);
 
-                ListView listView = findViewById(R.id.byCategoryLV);
-                ArrayAdapter<Categories> adapter = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_list_item_1, list);
-                listView.setAdapter(adapter);
+                //input = findViewById(R.id.autoCompletetxtName);
+                adapter = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_dropdown_item_1line, request);
+                autoCompleteTextView.setAdapter(adapter);
 
-                listView.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
-
-                    Intent goToConsumerItemsByCategory = new Intent(getBaseContext(), ConsumerItemsByCategory.class);
-                    Categories categories = (Categories) parent.getItemAtPosition(position);
-                    goToConsumerItemsByCategory.putExtra("Categories", categories);
-
-                    startActivity(goToConsumerItemsByCategory);
-                });
-
+                autoCompleteTextView.setThreshold(1);
 
             } catch (JSONException ex)
             {
                 //messageTextView.setText(ex.getMessage());
-                Log.e("PromotedItems", ex.getMessage());
+                Log.e("ConsumerShoppingList", ex.getMessage());
             }
 
 
         }
     }
+
+
 }

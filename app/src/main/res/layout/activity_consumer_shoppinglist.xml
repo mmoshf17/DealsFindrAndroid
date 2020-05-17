@@ -6,36 +6,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingStart="40pt"
-            android:orientation="horizontal">
 
-            <AutoCompleteTextView
-                android:id="@+id/acSearchShoppingItem"
-                android:layout_width="211dp"
-                android:layout_height="36dp"
-                android:background="@drawable/edittextlayout"
-                android:ems="10"
-                android:hint="Search item to add"
-                android:inputType="text"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:onClick="onClickAddItem"
-                android:drawableEnd="@drawable/ic_add_black_24dp"
-                android:focusable="true" />
-
-
-        </LinearLayout>
 
 
 
@@ -43,7 +18,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20pt"
             android:orientation="vertical">
 
 

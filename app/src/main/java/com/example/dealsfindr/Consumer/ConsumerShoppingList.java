@@ -6,25 +6,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.dealsfindr.AutoCompleteItems;
-import com.example.dealsfindr.AutoCompleteItemsPromotions;
-import com.example.dealsfindr.Item;
 import com.example.dealsfindr.MainActivity;
 import com.example.dealsfindr.PostDataString;
-import com.example.dealsfindr.Promotion;
 import com.example.dealsfindr.R;
 import com.example.dealsfindr.ReadHttpTask;
 
@@ -64,9 +56,6 @@ public class ConsumerShoppingList extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         String getUserId = sharedPref.getString("savedUserId", "");
 
-        //Getting all the items that are stored in the db
-        GetAllShoppingItems getAllShoppingItems = new GetAllShoppingItems();
-        getAllShoppingItems.execute("http://192.168.1.196:45683/api/GetAllItems?userId=" + getUserId);
 
 
         //Getting all the shopping items that has been already added
@@ -76,21 +65,7 @@ public class ConsumerShoppingList extends AppCompatActivity {
 
     }
 
-    public void onClickAddItem(View view){
 
-        SharedPreferences sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        String getUserId = sharedPref.getString("savedUserId", "");
-
-
-        new SaveShoppingItem().execute();
-        autoCompleteTextView.setText("");
-
-        GetAllShoppingList getAllShoppingList = new GetAllShoppingList();
-        getAllShoppingList.execute("http://192.168.1.196:45683/api/GetAllShoppingItems?userId=" + getUserId);
-
-
-
-    }
 
     public void onClickResetList(View view){
 
@@ -149,10 +124,24 @@ public class ConsumerShoppingList extends AppCompatActivity {
                     startActivity(intentLogin);
                     finish();
 
-                    Toast.makeText(getApplicationContext(), "Error",
-                            Toast.LENGTH_LONG).show();
+                    runOnUiThread(new Runnable(){
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "You are not authorized",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
 
+                else {
+                    runOnUiThread(new Runnable( ) {
+                        @Override
+                        public void run( ){
+                            Toast.makeText(getApplicationContext( ) , "Please select item from suggestion list" ,
+                                    Toast.LENGTH_LONG).show( );
+                        }
+                    });
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -242,49 +231,7 @@ public class ConsumerShoppingList extends AppCompatActivity {
         }
     }
 
-    private class GetAllShoppingItems extends ReadHttpTask {
-        @Override
-        protected void onPostExecute(CharSequence jsonString) {
-            //int itemId = 0;
-            //Gets the data from database and show all info into list by using loop
-            final List<AutoCompleteItems> request = new ArrayList<>();
 
-            try {
-
-                JSONArray array = new JSONArray(jsonString.toString());
-                for (int i = 0; i < array.length(); i++) {
-                    JSONObject obj = array.getJSONObject(i);
-
-                    //token = obj.getString("UserId");
-                    String itemName = obj.getString("Item_name");
-                    //itemId = obj.getInt("Item_Id");
-
-
-
-
-                    AutoCompleteItems autoCompleteItems = new AutoCompleteItems (itemName);
-
-                    request.add(autoCompleteItems);
-
-                }
-//
-                autoCompleteTextView =  findViewById(R.id.acSearchShoppingItem);
-
-                //input = findViewById(R.id.autoCompletetxtName);
-                adapter = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_dropdown_item_1line, request);
-                autoCompleteTextView.setAdapter(adapter);
-
-                autoCompleteTextView.setThreshold(1);
-
-            } catch (JSONException ex)
-            {
-                //messageTextView.setText(ex.getMessage());
-                Log.e("InstallmentRequest", ex.getMessage());
-            }
-
-
-        }
-    }
 
     private class GetAllShoppingList extends ReadHttpTask {
         @Override
@@ -293,7 +240,7 @@ public class ConsumerShoppingList extends AppCompatActivity {
 
 
             //Gets the data from database and show all info into list by using loop
-            final List<AutoCompleteItemsPromotions> list = new ArrayList<>();
+            final List<CategoryItemsDetails> list = new ArrayList<>();
 
             try {
                 JSONArray array = new JSONArray(jsonString.toString());
@@ -303,21 +250,58 @@ public class ConsumerShoppingList extends AppCompatActivity {
 
 
                     String itemName = obj.getString("Item_name");
+                    int price = obj.getInt("Price");
+                    String supplierName = obj.getString("Supplier_name");
 
 
 
 
-                    AutoCompleteItemsPromotions autocomplete = new AutoCompleteItemsPromotions(itemName);
+                    CategoryItemsDetails categoryItemsDetails = new CategoryItemsDetails(itemName, price, supplierName);
 
-                    list.add(autocomplete);
+                    list.add(categoryItemsDetails);
 
 
                 }
 
 
                 ListView listView = findViewById(R.id.shoppingItemsLV);
-                ArrayAdapter<AutoCompleteItemsPromotions> adapter = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_list_item_1, list);
+                ArrayAdapter<CategoryItemsDetails> adapter = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_list_item_1, list);
                 listView.setAdapter(adapter);
+
+
+                listView.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
+
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(ConsumerShoppingList.this);
+                    builder1.setMessage("Are you sure that you wish to add the item to the shopping list?");
+                    builder1.setCancelable(true);
+
+                    builder1.setPositiveButton(
+                            "Yes",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    //dialog.cancel();
+
+                                    CategoryItemsDetails categoriesDetails = (CategoryItemsDetails) parent.getItemAtPosition(position);
+
+
+                                    new DeleteItemById().execute();
+                                }
+                            });
+
+                    builder1.setNegativeButton(
+                            "No",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+
+
+
+                });
 
             } catch (JSONException ex)
             {
@@ -326,6 +310,85 @@ public class ConsumerShoppingList extends AppCompatActivity {
             }
 
 
+        }
+    }
+
+    public class DeleteItemById extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... params) {
+
+            URL url;
+            HttpURLConnection urlConnection = null;
+
+            try {
+
+
+
+                SharedPreferences sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+
+                String token = sharedPref.getString("token", "");
+
+                String getUserId = sharedPref.getString("savedUserId", "");
+
+
+
+                url = new URL("http://192.168.1.196:45683/api/DeleteShoppingList?userId=" + getUserId);
+
+                urlConnection = (HttpURLConnection) url.openConnection();
+
+                urlConnection.setRequestProperty("Authorization", "Bearer " + token);
+
+                urlConnection.setRequestMethod("DELETE");
+                urlConnection.setDoInput(true);
+
+                OutputStream os = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+
+                PostDataString postDataString = new PostDataString();
+
+                //writer.write(postDataString.getPostDataString());
+
+                writer.flush();
+                writer.close();
+                os.close();
+
+
+                int responseCode = urlConnection.getResponseCode();
+
+                if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_ACCEPTED) {
+
+
+                    Intent intent = new Intent(ConsumerShoppingList.this, ConsumerShoppingList.class);
+                    startActivity(intent);
+                    finish();
+
+                    runOnUiThread(new Runnable(){
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "The shopping list is empty now!",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+
+                } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
+
+                    Intent intentLogin = new Intent(ConsumerShoppingList.this, MainActivity.class);
+                    startActivity(intentLogin);
+                    finish();
+
+                    Toast.makeText(getApplicationContext(), "Please login to continue!",
+                            Toast.LENGTH_LONG).show();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            return null;
         }
     }
 }

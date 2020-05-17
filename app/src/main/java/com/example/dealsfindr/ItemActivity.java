@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -18,19 +17,17 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class Item extends AppCompatActivity {
+public class ItemActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
 
-        this.setTitle("Item");
+        this.setTitle("ItemActivity");
 
     }
 
@@ -96,14 +93,14 @@ public class Item extends AppCompatActivity {
                 if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_ACCEPTED) {
 
 
-                    Intent intent = new Intent(Item.this, MainActivity.class);
+                    Intent intent = new Intent(ItemActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
 
 
                 } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
 
-                    Intent intentLogin = new Intent(Item.this, MainActivity.class);
+                    Intent intentLogin = new Intent(ItemActivity.this, MainActivity.class);
                     startActivity(intentLogin);
                     finish();
 

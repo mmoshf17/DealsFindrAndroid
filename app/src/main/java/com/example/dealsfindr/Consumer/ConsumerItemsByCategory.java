@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.dealsfindr.AutoCompleteItemsPromotions;
 import com.example.dealsfindr.MainActivity;
 import com.example.dealsfindr.PostDataString;
 import com.example.dealsfindr.R;
@@ -34,14 +33,22 @@ import java.util.List;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ConsumerMainPage extends AppCompatActivity {
+public class ConsumerItemsByCategory extends AppCompatActivity {
+
+    private Categories categories;
+    private int getCategoryId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_consumer_mainpage);
+        setContentView(R.layout.activity_consumer_items_by_category);
 
-        this.setTitle("Welcome");
+        this.setTitle("Category items");
+
+        Intent intent = getIntent();
+        categories = (Categories) intent.getSerializableExtra("Categories");
+
+        getCategoryId = categories.getCategoryId();
 
     }
 
@@ -51,16 +58,13 @@ public class ConsumerMainPage extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         String getUserId = sharedPref.getString("savedUserId", "");
 
-        //Getting all the items that are stored in the db
-        GetAllPromotedItems getAllPromotedItems = new GetAllPromotedItems();
-        getAllPromotedItems.execute("http://192.168.1.196:45683/api/GetPromotedItems?userId=" + getUserId);
 
         //Getting all the items that are stored in the db
-        GetAllCategories getAllCategories = new GetAllCategories();
-        getAllCategories.execute("http://192.168.1.196:45683/api/GetCategories?userId=" + getUserId);
+        GetItemsByCategory getItemsByCategory = new GetItemsByCategory();
+        getItemsByCategory.execute("http://192.168.1.196:45683/api/GetItemsByCategory?userId=" + getUserId + "&categoryId=" + getCategoryId);
     }
 
-    private class GetAllPromotedItems extends ReadHttpTask {
+    private class GetItemsByCategory extends ReadHttpTask {
         @Override
         protected void onPostExecute(CharSequence jsonString) {
 
@@ -75,8 +79,8 @@ public class ConsumerMainPage extends AppCompatActivity {
                     JSONObject obj = array.getJSONObject(i);
 
                     String itemName = obj.getString("Item_name");
-                    int price = obj.getInt("Price");
                     String supplierName = obj.getString("Supplier_name");
+                    int price = obj.getInt("Price");
 
                     CategoryItemsDetails categoryItemsDetails = new CategoryItemsDetails(itemName, price, supplierName);
 
@@ -86,42 +90,45 @@ public class ConsumerMainPage extends AppCompatActivity {
                 }
 
 
-                ListView listView = findViewById(R.id.recomendationLV);
+                ListView listView = findViewById(R.id.categoryLV);
                 ArrayAdapter<CategoryItemsDetails> adapter = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_list_item_1, list);
                 listView.setAdapter(adapter);
 
                 listView.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
 
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(ConsumerMainPage.this);
-                builder1.setMessage("Are you sure that you wish to add the item to the shopping list?");
-                builder1.setCancelable(true);
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(ConsumerItemsByCategory.this);
+                    builder1.setMessage("Are you sure that you wish to add the item to the shopping list?");
+                    builder1.setCancelable(true);
 
-                builder1.setPositiveButton(
-                        "Yes",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                //dialog.cancel();
+                    builder1.setPositiveButton(
+                            "Yes",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    //dialog.cancel();
 
-                                CategoryItemsDetails categoryItemsDetails = (CategoryItemsDetails) parent.getItemAtPosition(position);
+                                    CategoryItemsDetails categoriesDetails = (CategoryItemsDetails) parent.getItemAtPosition(position);
 
 
-                                new SaveShoppingItem(categoryItemsDetails.getItemName(), categoryItemsDetails.getPrice(), categoryItemsDetails.getSupplierName()).execute();
-                            }
-                        });
+                                    new SaveShoppingItem(categoriesDetails.getItemName(), categoriesDetails.getPrice(), categoriesDetails.getSupplierName()).execute();
+                                }
+                            });
 
-                builder1.setNegativeButton(
-                        "No",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
+                    builder1.setNegativeButton(
+                            "No",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
 
-                AlertDialog alert11 = builder1.create();
-                alert11.show();
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+
 
 
                 });
+
+
 
 
 
@@ -202,14 +209,14 @@ public class ConsumerMainPage extends AppCompatActivity {
                 if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_ACCEPTED) {
 
 
-                    Intent intent = new Intent(ConsumerMainPage.this, MainActivity.class);
+                    Intent intent = new Intent(ConsumerItemsByCategory.this, MainActivity.class);
                     startActivity(intent);
                     finish();
 
 
                 } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
 
-                    Intent intentLogin = new Intent(ConsumerMainPage.this, MainActivity.class);
+                    Intent intentLogin = new Intent(ConsumerItemsByCategory.this, MainActivity.class);
                     startActivity(intentLogin);
                     finish();
 
@@ -224,56 +231,6 @@ public class ConsumerMainPage extends AppCompatActivity {
                     urlConnection.disconnect();
             }
             return null;
-        }
-    }
-
-    private class GetAllCategories extends ReadHttpTask {
-        @Override
-        protected void onPostExecute(CharSequence jsonString) {
-
-
-
-            //Gets the data from database and show all info into list by using loop
-            final List<Categories> list = new ArrayList<>();
-
-            try {
-                JSONArray array = new JSONArray(jsonString.toString());
-                for (int i = 0; i < array.length(); i++) {
-                    JSONObject obj = array.getJSONObject(i);
-
-                    int categoryId = obj.getInt("Category_Id");
-                    String categoryName = obj.getString("Category_name");
-                    //String itemName = obj.getString("Item_name");
-                    //int price = obj.getInt("Price");
-
-                    Categories categories = new Categories(categoryId, categoryName);
-
-                    list.add(categories);
-
-
-                }
-
-                ListView listView = findViewById(R.id.byCategoryLV);
-                ArrayAdapter<Categories> adapter = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_list_item_1, list);
-                listView.setAdapter(adapter);
-
-                listView.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
-
-                    Intent goToConsumerItemsByCategory = new Intent(getBaseContext(), ConsumerItemsByCategory.class);
-                    Categories categories = (Categories) parent.getItemAtPosition(position);
-                    goToConsumerItemsByCategory.putExtra("Categories", categories);
-
-                    startActivity(goToConsumerItemsByCategory);
-                });
-
-
-            } catch (JSONException ex)
-            {
-                //messageTextView.setText(ex.getMessage());
-                Log.e("PromotedItems", ex.getMessage());
-            }
-
-
         }
     }
 }
